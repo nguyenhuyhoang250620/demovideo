@@ -6,15 +6,29 @@ import Search from './page/search';
 import language from "../src/asset/image/language.png"
 import UploadImage from './page/upload_image';
 import React, { useState,useRef } from "react";
+import { useNavigate } from 'react-router-dom';
 const Home=()=> {
   const [img,setimg] = useState(false)
   const [vid,setvid] = useState(false)
+  const [senvideo,SetSenvide] = useState()
+  const navigate = useNavigate();
   const pickVideo =()=>{
     setvid(true)
   }
   const pickImage = ()=>{
     setimg(true)
   }
+ 
+  const getDataVideo = (data)=>{
+    SetSenvide(data)
+  }
+
+  const goToResultScreen = () => {
+    if(img === true  && vid ===true){
+      navigate('/home',{state:{data:senvideo}});
+    }
+   
+  };
   return (
     <div style={{
       height:"100vh",
@@ -51,13 +65,23 @@ const Home=()=> {
             display:"flex",
             justifyContent:"space-evenly"
           }}>
-            <Upload title="IMAGE/VIDEO SOURCE (INPUT)" bottom="Paste image/video link" pick={()=>pickVideo()}/>
+            <Upload video={getDataVideo} title="IMAGE/VIDEO SOURCE (INPUT)" bottom="Paste image/video link" pick={()=>pickVideo()}/>
             <UploadImage title="HUMAN SEARCH TARGET" bottom="Paste image link" pick={()=>pickImage()}/>
             <Search title="VEHICLE SEARCH TARGET"/>
           </div>
           <div style={{display:'flex',justifyContent:'center',alignItems:'center'}}>
             <div 
-              style={{background:(img === true  && vid ===true)?"#00F0FF":"#212228",height:"40px",width:"100px",color:(img === true  && vid ===true)?"black":"rgba(255, 255, 255, 0.7)",display:"flex",alignItems:'center',justifyContent:'center',borderRadius:"6px"}}>
+              onClick={goToResultScreen}
+              style={{
+                background:(img === true  && vid ===true)?"#00F0FF":"#212228",
+                height:"40px",width:"100px",
+                color:(img === true  && vid ===true)?"black":"rgba(255, 255, 255, 0.7)",
+                display:"flex",
+                alignItems:'center',
+                justifyContent:'center',
+                borderRadius:"6px",
+                cursor:"pointer"
+                }}>
               Search
             </div>
           </div>

@@ -1,6 +1,6 @@
 import upload from "../asset/image/upload.png"
 import React, { useState,useRef } from "react";
-const Upload = ({title,bottom,pick})=>{
+const Upload = ({title,bottom,pick,video})=>{
     const [videodata,setVideodata] = useState()
     const videoRef = useRef(null);
     const inputRef = useRef(null);
@@ -15,6 +15,7 @@ const Upload = ({title,bottom,pick})=>{
         if (file) {
             setVideodata(URL.createObjectURL(file));
             pick()
+            video(URL.createObjectURL(file))
         }
 
       };
