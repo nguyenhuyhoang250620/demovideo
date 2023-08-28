@@ -1,0 +1,67 @@
+import upload from "../asset/image/upload.png"
+import React, { useState,useRef } from "react";
+const Upload = ({title,bottom,pick})=>{
+    const [videodata,setVideodata] = useState()
+    const videoRef = useRef(null);
+    const inputRef = useRef(null);
+
+    const handleButtonClick = () => {
+      if (inputRef.current) {
+        inputRef.current.click();
+      }
+    };
+    const handleVideoChange = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            setVideodata(URL.createObjectURL(file));
+            pick()
+        }
+
+      };
+    return(
+        <div 
+            style={{
+                height:"500px",
+                width:"500px",
+                background:"#212228",
+                overflow:"hidden",
+                margin:"10px",
+                display:"flex",
+                flexDirection:"column",
+                justifyContent:"start",
+                alignItems:"center"
+            }}
+        >
+            <h2 style={{color:"rgba(255, 255, 255, 0.7)"}}>{title}</h2>
+            {
+                videodata?
+                    <div style={{height:"320px",width:"450px"}}>
+                        <video ref={videoRef} controls style={{height:"320px",width:"auto",maxWidth:"450px"}}>
+                            <source src={videodata} type="video/mp4" />
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                :<div 
+                    onClick={handleButtonClick}
+                    style={{height:"320px",width:"450px",background:"black",display:"flex",justifyContent:"center",alignItems:"center",cursor:"pointer"}}>
+                    <input type="file" accept="video/*" onChange={handleVideoChange} style={{ display: "none" }}  ref={inputRef}/>
+                    <img src={upload} style={{paddingRight:"10px"}}/>
+                    
+                    <div>
+                        <span style={{color:"#FFFFFF",paddingRight:"5px"}}>Drag any image/video here or</span>
+                        <span style={{color:"#00F0FF"}}>Upload a file</span>
+                    </div>
+                </div>
+            }
+            <div style={{display:"flex",alignItems:"center",marginTop:"5px"}}>
+                <div style={{height:"1px",width:"120px",background:"rgba(255, 255, 255, 0.4)"}}></div>
+                <span style={{paddingLeft:"10px",paddingRight:"10px"}}>OR</span>
+                <div style={{height:"1px",width:"120px",background:"rgba(255, 255, 255, 0.4)"}}></div>
+            </div>
+            <div style={{height:"50px",width:"450px",background:"black",marginTop:"5px",display:"flex",alignItems:"center"}}>
+                <span style={{color:"rgba(255, 255, 255, 0.7)",paddingLeft:"20px"}}>{bottom}</span>
+            </div>
+        </div>
+    )
+}
+export default Upload
