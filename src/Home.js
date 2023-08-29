@@ -7,11 +7,13 @@ import language from "../src/asset/image/language.png"
 import UploadImage from './page/upload_image';
 import React, { useState,useRef } from "react";
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 const Home=()=> {
   const [img,setimg] = useState(false)
   const [vid,setvid] = useState(false)
   const [senvideo,SetSenvide] = useState()
   const navigate = useNavigate();
+  const [postVideo,setPostVideo]= useState()
   const pickVideo =()=>{
     setvid(true)
   }
@@ -23,10 +25,24 @@ const Home=()=> {
     SetSenvide(data)
   }
 
-  const goToResultScreen = () => {
-    if(img === true  || vid ===true){
-      navigate('/home',{state:{data:senvideo}});
-    }
+  const goToResultScreen = async () => {
+    const formData = new FormData();
+    formData.append("video", senvideo);
+    await axios.post("http://123.24.199.156:18080/ekyc/video_face_scan",
+    formData,
+    {
+      headers:{
+        // "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
+        // "Authorization": `Bearer ${token}`,
+        "Access-Control-Allow-Headers":"*",
+        "Access-Control-Allow-Origin":"*",
+      },
+    })
+    // formData.append("image", data.id);
+    // if(img === true  || vid ===true){
+    //   navigate('/home',{state:{data:senvideo}});
+    // }
    
   };
   return (
@@ -66,7 +82,7 @@ const Home=()=> {
             justifyContent:"space-evenly"
           }}>
             
-            <Upload video={getDataVideo} title="IMAGE/VIDEO SOURCE (INPUT)" bottom="Paste image/video link" pick={()=>pickVideo()}/>
+            <Upload video={getDataVideo} title="IMAGE/VIDEO SOURCE (INPUT)" bottom="Paste image/video link" pick={(data)=>pickVideo()}/>
             <UploadImage title="HUMAN SEARCH TARGET" bottom="Paste image link" pick={()=>pickImage()}/>
             <Search title="VEHICLE SEARCH TARGET"/>
           </div>
