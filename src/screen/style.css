@@ -1,11 +1,9 @@
 .grid-container {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr); /* 4 cột */
-    gap: 35px; /* Khoảng cách giữa các ô */
-    max-height: 250px; /* Chiều cao tối đa của lưới */
+    display: flex;
+    gap: 10px; /* Khoảng cách giữa các ô */
+    max-height: 280px; /* Chiều cao tối đa của lưới */
     overflow-y: auto; /* Hiển thị thanh cuộn dọc khi cần */
-    border: 1px solid rgba(255, 255, 255, 0.2); /* Thêm đường viền cho thẩm mỹ */
-    padding: 16px; /* Khoảng cách từ nội dung đến khung của thẻ div */
+    max-width: 1030px;
   }
   
   .grid-item {
@@ -16,16 +14,31 @@
     align-items: center;
   }
 
+  .container{}
+
   .grid-container::-webkit-scrollbar {
     width: 0; /* Độ rộng của thanh cuộn */
     height: 1px;
   }
   
   .grid-container::-webkit-scrollbar-thumb {
-    background-color: red; /* Màu nền cho phần thanh cuộn */
+    background-color: #212228; /* Màu nền cho phần thanh cuộn */
     border-radius: 4px; /* Bo góc cho phần thanh cuộn */
   }
   
   .grid-container::-webkit-scrollbar-track {
+    background-color: #f0f0f0; /* Màu nền của phần track */
+  }
+  .container::-webkit-scrollbar {
+    width: 0; /* Độ rộng của thanh cuộn */
+    height: 1px;
+  }
+  
+  .container::-webkit-scrollbar-thumb {
+    background-color: #212228; /* Màu nền cho phần thanh cuộn */
+    border-radius: 4px; /* Bo góc cho phần thanh cuộn */
+  }
+  
+  .container::-webkit-scrollbar-track {
     background-color: #f0f0f0; /* Màu nền của phần track */
   }

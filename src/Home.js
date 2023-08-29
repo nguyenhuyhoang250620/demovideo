@@ -76,7 +76,7 @@ const Home=()=> {
               style={{
                 background:(img === true  || vid ===true)?"#00F0FF":"#212228",
                 height:"40px",width:"100px",
-                color:(img === true  && vid ===true)?"black":"rgba(255, 255, 255, 0.7)",
+                color:(img === true  || vid ===true)?"black":"rgba(255, 255, 255, 0.7)",
                 display:"flex",
                 alignItems:'center',
                 justifyContent:'center',

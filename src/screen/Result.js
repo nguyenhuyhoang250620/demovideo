@@ -48,7 +48,6 @@ const ResultScreen =()=>{
     { id: '6', time: '05:00',left:1600,second:300},
     { id: '7', time: '05:50',left:1600,second:350},
     { id: '8', time: '06:40',left:1600,second:400},
-    { id: '9', time: '07:30',left:1600,second:450},
   ];
 
 
