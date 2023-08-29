@@ -3,7 +3,7 @@
     gap: 10px; /* Khoảng cách giữa các ô */
     max-height: 280px; /* Chiều cao tối đa của lưới */
     overflow-y: auto; /* Hiển thị thanh cuộn dọc khi cần */
-    max-width: 1030px;
+    width: 1430px;
   }
   
   .grid-item {

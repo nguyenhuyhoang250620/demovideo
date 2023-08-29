@@ -3,6 +3,8 @@ import "./style.css";
 import { useRef, useState } from "react";
 import prviuos from "../asset/image/previuos.png"
 import next from "../asset/image/next.png"
+import dataJson from "../data/metadata.json"
+import BoundingBoxDiv from "../page/bouding";
 const ResultTime = ({
   pointstwo,
   handleTimeChange,
@@ -25,7 +27,9 @@ const ResultTime = ({
   ];
   const dataUser = [1, 2, 3];
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [dataAll, setDataAll] = useState(Array(203).fill(""));
 
+  const [bouding,setBounding] = useState([])
   const handlePrevious = (time,second) => {
     if (currentIndex > 0) {
       setCurrentIndex(currentIndex - 1);
@@ -39,8 +43,16 @@ const ResultTime = ({
       handleTimeChange(time,second)
     }
   };
+  function formatSecondsToMMSS(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = Math.round(seconds % 60);
 
-  console.log("pointstwo",pointstwo[currentIndex].time)
+    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+    const formattedSeconds = remainingSeconds < 10 ? `0${remainingSeconds}` : remainingSeconds;
+
+    return `${formattedMinutes}:${formattedSeconds}`;
+}
+
   return (
     <div
       style={{
@@ -54,7 +66,7 @@ const ResultTime = ({
       <div
         style={{
           height: "100%",
-          width: "80%",
+          width: "100%",
           paddingLeft: "20px",
           paddingRight: "20px",
         }}
@@ -76,6 +88,7 @@ const ResultTime = ({
             <source src={video} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
+          {bouding && <BoundingBoxDiv x={bouding[0]} y={bouding[1]} width={bouding[2]} height={bouding[3]} scale={0.15}/>}
         </div>
         <div
         className="container"
@@ -88,8 +101,11 @@ const ResultTime = ({
             overflow:"auto"
           }}
         >
-          {dataUser.map((user, count) => (
-            <div style={{display:"flex",flexDirection:"row",marginTop:"10px"}}>
+          {dataAll.map((user, count) => {
+            const key = `ID${count}`;
+            // console.log(dataJson[key]);
+            return(
+              <div style={{display:"flex",flexDirection:"row",marginTop:"10px"}}>
               <div 
                 style={{
                     height:"100%",
@@ -110,76 +126,83 @@ const ResultTime = ({
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    flexDirection:"column"
+                    flexDirection:"column",
+                    border:"1px solid #ccc"
                   }}
                 >
                   <img
-                    src={avatar}
-                    style={{ height: "200px", width: "auto" }}
+                    src={dataJson[key][0][2][0]}
+                    style={{ height: "110px", width: "auto" }}
                   />
                 </div>
-                <span style={{color:"rgba(255, 255, 255, 0.7)"}}>Person11</span>
+                <span style={{color:"rgba(255, 255, 255, 0.7)"}}>Person{`ID${count}`}</span>
               </div>
               <div className="grid-container">
-                {pointstwo.map((point, index) => (
-                  <div key={index} className="grid-item">
+                {dataJson[key].map((point, index) => {
+                  return(<div key={index} className="grid-item">
+                  <div
+                    key={point.id}
+                    style={{
+                      height:"100%",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                    }}
+                    onClick={() => {
+                      console.log("point[1]",point[1])
+                      setBounding(point[1])
+                      handleTimeChange(formatSecondsToMMSS(point[0][0]), point[0][0])
+                    }}
+                  >
                     <div
-                      key={point.id}
                       style={{
-                        height:"100%",
+                        height: "160px",
+                        width: "120px",
+                        background: point.time === pointstwo[currentIndex].time ? "#00F0FF" : "#464852",
                         display: "flex",
                         flexDirection: "column",
+                        justifyContent: "start",
                         alignItems: "center",
+                        borderRadius: "6px",
+                        cursor: "pointer",
                       }}
-                      onClick={() => handleTimeChange(point.time, point.second)}
                     >
                       <div
                         style={{
-                          height: "160px",
-                          width: "120px",
-                          background: point.time === pointstwo[currentIndex].time ? "#00F0FF" : "#464852",
+                          marginTop:"5px",
+                          overflow: "hidden",
+                          height: "90px",
+                          width: "90px",
                           display: "flex",
-                          flexDirection: "column",
-                          justifyContent: "start",
                           alignItems: "center",
-                          borderRadius: "6px",
-                          cursor: "pointer",
+                          objectFit: "contain",
+                          borderRadius: "50%",
+                          paddingBottom:"5px",
+                          justifyContent: "center",
+                          border:"1px solid #ccc"
+
                         }}
                       >
-                        <div
-                          style={{
-                            marginTop:"5px",
-                            overflow: "hidden",
-                            height: "100px",
-                            width: "100px",
-                            display: "flex",
-                            alignItems: "center",
-                            objectFit: "contain",
-                            borderRadius: "50%",
-                            paddingBottom:"5px",
-                            justifyContent: "center",
-                          }}
-                        >
-                          <img
-                            style={{ height: "200px", width: "auto" }}
-                            src={avatar}
-                          />
-                        </div>
-                        <span
-                          style={{
-                            marginTop:"10px",
-                            color:
-                            point.time === pointstwo[currentIndex].time  ? "black" : "#FFFFFF",
-                          }}
-                        >
-                          {point.time}
-                        </span>
+                        <img
+                          style={{ height: "90px", width: "auto" }}
+                          src={point[2][0]}
+                        />
                       </div>
+                      <span
+                        style={{
+                          marginTop:"20px",
+                          color:
+                          point.time === pointstwo[currentIndex].time  ? "black" : "#FFFFFF",
+                        }}
+                      >
+                        {formatSecondsToMMSS(point[0][0])}
+                      </span>
                     </div>
                   </div>
-                ))}
+                </div>)
+                })}
               </div>
-              <div style={{
+              {/* <div style={{
                 display:"flex",
                 justifyContent:"space-evenly",
                 alignItems:"center",
@@ -187,12 +210,13 @@ const ResultTime = ({
               }}>
                 <img onClick={()=>handlePrevious(pointstwo[currentIndex].time,pointstwo[currentIndex].second)} src={prviuos}/>
                 <img onClick={()=>handleNext(pointstwo[currentIndex].time,pointstwo[currentIndex].second)} src={next}/>
-              </div>
+              </div> */}
             </div>
-          ))}
+            )
+          })}
         </div>
       </div>
-      <div
+      {/* <div
         style={{
           height: "100%",
           width: "20%",
@@ -258,7 +282,7 @@ const ResultTime = ({
             ))}
           </div>
         ))}
-      </div>
+      </div> */}
     </div>
   );
 };

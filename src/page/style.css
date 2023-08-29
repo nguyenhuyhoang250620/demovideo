@@ -1,0 +1,9 @@
+.bounding_box{
+    position: absolute;
+    border: 2px solid red; /* Màu và kiểu viền khung */
+    box-sizing: border-box;
+    background-color: red;
+    position: absolute;
+    height: 100px;
+    width: 200px;
+}
