@@ -26,6 +26,7 @@ const Home=()=> {
   }
 
   const goToResultScreen = async () => {
+    console.log(senvideo.name)
     const formData = new FormData();
     formData.append("video", senvideo);
     await axios.post("http://123.24.199.156:18080/ekyc/video_face_scan",
@@ -38,6 +39,8 @@ const Home=()=> {
         "Access-Control-Allow-Headers":"*",
         "Access-Control-Allow-Origin":"*",
       },
+    }).then((value)=>{
+      console.log(value)
     })
     // formData.append("image", data.id);
     // if(img === true  || vid ===true){

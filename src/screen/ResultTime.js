@@ -27,7 +27,7 @@ const ResultTime = ({
   ];
   const dataUser = [1, 2, 3];
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [dataAll, setDataAll] = useState(Array(203).fill(""));
+  const [dataAll, setDataAll] = useState(Array(1).fill(""));
 
   const [bouding,setBounding] = useState([])
   const handlePrevious = (time,second) => {

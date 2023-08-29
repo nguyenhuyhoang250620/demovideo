@@ -17,7 +17,7 @@ const Upload = ({title,bottom,pick,video})=>{
         if (file) {
             setVideodata(URL.createObjectURL(file));
             pick()
-            video(URL.createObjectURL(file))
+            video(file)
         }
 
       };
