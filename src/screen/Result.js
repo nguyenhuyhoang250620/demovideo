@@ -6,6 +6,7 @@ import { useRef,useState } from "react"
 import avatar from "../asset/image/avatar.jpg"
 import pointDefaut from "../asset/image/point_default.png"
 import pointActive from "../asset/image/point_active.png"
+import ResultTime from "./ResultTime"
 const ResultScreen =()=>{
   const location = useLocation();
   const videoRef = useRef(null);
@@ -66,7 +67,7 @@ const ResultScreen =()=>{
             flexDirection:"column",
           }}>
           <div style={{height:"60px",width:"100%",borderBottom:"1px solid rgba(255, 255, 255, 0.4)",overflow:"hidden",display:"flex",justifyContent:"space-between"}}>
-            <h4 style={{color:"rgba(255, 255, 255, 0.7)",marginLeft:"10px"}}>OJECT SEARCH</h4>
+            <h4 style={{color:"rgba(255, 255, 255, 0.7)",marginLeft:"10px"}}>OBJECT SEARCH</h4>
             <div style={{height:"60px",display:"flex",alignItems:"center",marginRight:"30px"}}>
               <div style={{
                 height:"30px",
@@ -139,7 +140,7 @@ const ResultScreen =()=>{
                 paddingRight:"40px"
               }}>
                 {
-                  swich?    <div
+                  swich? <div
                   style={{height:"5px",
                   width:"100%",
                   marginLeft:"30px",
@@ -165,49 +166,12 @@ const ResultScreen =()=>{
                     <span style={{ color: "#FFFFFF" }}>{point.time}</span>
                   </div>
                 ))}
-                </div>:<div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-                {pointstwo.map(point => (
-                  <div
-                    key={point.id}
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                    }}
-                    onClick={() => handleTimeChange(point.time,point.second)}
-                  >
-                    <div style={{
-                      height:"120px",
-                      width:"120px",
-                      background:point.time === selectedTime ?"#00F0FF":"#464852",
-                      marginLeft:"15px",
-                      display:"flex",
-                      flexDirection:"column",
-                      justifyContent:"center",
-                      alignItems:"center",
-                      borderRadius:"6px",
-                      cursor:"pointer"
-                    }}>
-                    <div style={{
-                      overflow:"hidden",
-                      height:"80px",
-                      width:"80px",
-                      display:"flex",
-                      alignItems:"center",
-                      objectFit:"contain",
-                      borderRadius:"50%",
-                      justifyContent:"center",
-                      }}>
-                      <img
-                        style={{height:"200px",width:"auto"}}
-                        src={avatar}
-                      />
-                    </div>
-                    <span style={{ color: point.time === selectedTime?"black":"#FFFFFF" }}>{point.time}</span>
-                    </div>
-                  </div>
-                ))}
-                </div>
+                </div>:
+                  <ResultTime
+                    pointstwo={pointstwo}
+                    handleTimeChange={handleTimeChange}
+                    selectedTime={selectedTime}
+                  />
                 }
               </div>
           </div>

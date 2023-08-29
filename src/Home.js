@@ -24,7 +24,7 @@ const Home=()=> {
   }
 
   const goToResultScreen = () => {
-    if(img === true  && vid ===true){
+    if(img === true  || vid ===true){
       navigate('/home',{state:{data:senvideo}});
     }
    
@@ -44,7 +44,7 @@ const Home=()=> {
             flexDirection:"column",
           }}>
           <div style={{height:"60px",width:"100%",borderBottom:"1px solid rgba(255, 255, 255, 0.4)",overflow:"hidden",display:"flex",justifyContent:"space-between"}}>
-            <h4 style={{color:"rgba(255, 255, 255, 0.7)",marginLeft:"10px"}}>OJECT SEARCH</h4>
+            <h4 style={{color:"rgba(255, 255, 255, 0.7)",marginLeft:"10px"}}>OBJECT SEARCH</h4>
             <div style={{height:"60px",display:"flex",alignItems:"center",marginRight:"30px"}}>
               <div style={{
                 height:"30px",
@@ -74,7 +74,7 @@ const Home=()=> {
             <div 
               onClick={goToResultScreen}
               style={{
-                background:(img === true  && vid ===true)?"#00F0FF":"#212228",
+                background:(img === true  || vid ===true)?"#00F0FF":"#212228",
                 height:"40px",width:"100px",
                 color:(img === true  && vid ===true)?"black":"rgba(255, 255, 255, 0.7)",
                 display:"flex",

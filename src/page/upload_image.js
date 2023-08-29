@@ -70,7 +70,7 @@ const UploadImage = ({title,bottom,pick})=>{
             }
             <div style={{display:"flex",alignItems:"center",marginTop:"5px"}}>
                 <div style={{height:"1px",width:"120px",background:"rgba(255, 255, 255, 0.4)"}}></div>
-                <span style={{paddingLeft:"10px",paddingRight:"10px"}}>OR</span>
+                <span style={{paddingLeft:"10px",paddingRight:"10px",color:"rgba(255, 255, 255, 0.4)"}}>OR</span>
                 <div style={{height:"1px",width:"120px",background:"rgba(255, 255, 255, 0.4)"}}></div>
             </div>
             <div style={{height:"50px",width:"450px",background:"black",marginTop:"5px",display:"flex",alignItems:"center"}}>

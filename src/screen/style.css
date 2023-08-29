@@ -1,0 +1,15 @@
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 cột */
+    gap: 16px; /* Khoảng cách giữa các ô */
+    max-height: 100px; /* Chiều cao tối đa của lưới */
+    overflow-y: auto; /* Hiển thị thanh cuộn dọc khi cần */
+    border: 1px solid #ccc; /* Thêm đường viền cho thẩm mỹ */
+    padding: 16px; /* Khoảng cách từ nội dung đến khung của thẻ div */
+  }
+  
+  .grid-item {
+    background-color: #f0f0f0;
+    padding: 16px;
+    text-align: center;
+  }
