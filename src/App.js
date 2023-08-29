@@ -16,7 +16,7 @@ const App = () => {
         }
       />
       <Route
-        path="/home"
+        path="/single"
         element={
           <React.Suspense >
             <ResultScreen />

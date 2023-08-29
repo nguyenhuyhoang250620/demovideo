@@ -2,43 +2,43 @@ import SideBarHome from "../page/sidebarHome"
 import language from "../asset/image/language.png"
 import headerSearch from "../asset/image/header_search.png"
 import { useLocation } from "react-router-dom"
-import { useRef,useState } from "react"
+import { useRef,useState,useEffect } from "react"
 import avatar from "../asset/image/avatar.jpg"
 import pointDefaut from "../asset/image/point_default.png"
 import pointActive from "../asset/image/point_active.png"
-import ResultTime from "./ResultTime"
+import ResultSingle from "./ResultSingle"
+import dataJson from "../data/metadata.json"
+import ResultTime from "./ResuiltTime"
+import BoundingBoxDiv from "../page/bouding";
 const ResultScreen =()=>{
   const location = useLocation();
   const videoRef = useRef(null);
   // const [selectedTime, setSelectedTime] = useState(0);
-  const [selectedTime, setSelectedTime] = useState('');
+  const [selectedTime, setSelectedTime] = useState();
   const [swich,setSwich] = useState(true)
-  const [tops,setTops] =useState()
-  const [left,setLeft] = useState()
-  const [heights,setHeightz] = useState()
-  const [widths,setWidthz] = useState()
   const [detect,setDetect]= useState(false)
+  const [bouding,setBounding] = useState([])
  
 
-  const handleTimeChange = (time,second,top,left,heightz,widthz) => {
+
+  const handleTimeChange = (time,second,bouding) => {
     setDetect(false)
-    setSelectedTime(time);
+    console.log(second)
+    setSelectedTime(second[0]);
+    console.log(bouding)
+    setBounding(bouding)
+    
     videoRef.current.currentTime = second;
-    setTimeout(() => {
-      setTops(top)
-      setLeft(left)
-      setHeightz(heightz)
-      setWidthz(widthz)
-      setDetect(true)
-    }, 200);
   }
-  const points = [
-    { id: '1', time: '00:50',left:80,second:50,tops:230,lefts:630,height:"110px",width:"100px"},
-    { id: '2', time: '05:50',left:600,second:350,tops:190,lefts:815,height:"200px",width:"200px"},
-    { id: '3', time: '06:50',left:700,second:410,tops:110,lefts:850,height:"200px",width:"200px"},
-    { id: '4', time: '07:50',left:1500,second:470,tops:220,lefts:500,height:"100px",width:"100px"},
-    { id: '5', time: '08:00',left:1600,second:480,tops:170,lefts:540,height:"140px",width:"140px"},
-  ];
+  function formatSecondsToMMSS(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = Math.round(seconds % 60);
+
+    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+    const formattedSeconds = remainingSeconds < 10 ? `0${remainingSeconds}` : remainingSeconds;
+
+    return `${formattedMinutes}:${formattedSeconds}`;
+}
   const pointstwo = [
     { id: '1', time: '00:50',left:80,second:50},
     { id: '2', time: '01:40',left:100,second:100},
@@ -50,7 +50,7 @@ const ResultScreen =()=>{
     { id: '8', time: '06:40',left:1600,second:400},
   ];
 
-
+console.log(location.state.img)
     return(
         <div style={{
             height:"100vh",
@@ -81,9 +81,9 @@ const ResultScreen =()=>{
             </div>
           </div>
           <img src={headerSearch} onClick={()=>setSwich(!swich)}/>
-
-
-              {
+          {
+            location.state.img?<>
+               {
                 swich?
                 <div>
                 <div style={{
@@ -95,20 +95,11 @@ const ResultScreen =()=>{
               alignItems:"center",
               position:"relative"
               }}>
-                  <video ref={videoRef} controls style={{height:"68vh",width:"auto"}}>
+                  <video ref={videoRef} controls  style={{height:"600px",width:"1067px"}}>
                       <source src={location.state.data} type="video/mp4" />
                       Your browser does not support the video tag.
                   </video>
-                  {(detect && swich) && <div style={{
-                    position:"absolute",
-                    height:heights,
-                    width:widths,
-                    border:"2px solid #00F0FF",
-                    top:tops,
-                    left:left
-                  }}>
-                    <div style={{color:"#00F0FF",position:"absolute",top:-23,background:"rgba(0, 0, 0, 0.6)",borderRadius:"4px"}}>Person11</div>
-                  </div>}
+                  {bouding.length>0 && <BoundingBoxDiv title="ID0" x={bouding[0]} y={bouding[1]} width={bouding[2]-bouding[0]} height={bouding[3]-bouding[1]} scale={0.6} top={0} left={350}/>}
                   
             </div>
             <div style={{padding:"20px"}}>
@@ -128,11 +119,12 @@ const ResultScreen =()=>{
                   objectFit:"contain",
                   borderRadius:"50%",
                   justifyContent:"center",
-                  marginLeft:"10px"
+                  marginLeft:"10px",
+                  border:"1px solid #ccc"
                   }}>
                   <img
-                    style={{height:"200px",width:"auto"}}
-                    src={avatar}
+                    style={{height:"80px",width:"auto"}}
+                    src={dataJson.ID0[0][2]}
                   />
                 </div>
                 <div style={{
@@ -152,7 +144,7 @@ const ResultScreen =()=>{
                   }}
                   >
     
-                  {points.map(point => (
+                  {dataJson.ID0.map(point => (
                     <div
                       key={point.id}
                       style={{
@@ -161,19 +153,19 @@ const ResultScreen =()=>{
                         alignItems: "center",
                         position: "absolute",
                         top: 28,
-                        left: point.left
+                        left: point[0]*100
                       }}
-                      onClick={() => handleTimeChange(point.time,point.second,point.tops,point.lefts,point.height,point.width)}
+                      onClick={() => handleTimeChange(formatSecondsToMMSS(point[0]),point[0],point[1])}
                     >
-                      <img src={point.time === selectedTime? pointDefaut:pointActive} style={{ marginBottom: "6px" }} />
-                      <span style={{ color: "#FFFFFF" }}>{point.time}</span>
+                      <img src={point[0][0] === selectedTime? pointDefaut:pointActive} style={{ marginBottom: "6px" }} />
+                      <span style={{ color: "#FFFFFF" }}>{formatSecondsToMMSS(point[0])}</span>
                     </div>
                   ))}
                   </div>
                 </div>
             </div>
             </div>
-                </div>:<ResultTime
+                </div>:<ResultSingle
                       pointstwo={pointstwo}
                       handleTimeChange={handleTimeChange}
                       selectedTime={selectedTime}
@@ -181,8 +173,16 @@ const ResultScreen =()=>{
                       videoRef={videoRef}
                     />
               }
+            </>:<ResultTime
+                      pointstwo={pointstwo}
+                      handleTimeChange={handleTimeChange}
+                      selectedTime={selectedTime}
+                      video={location.state.data}
+                      videoRef={videoRef}
+                    />
+          }
 
-        
+
         </div>
         </div>
     )

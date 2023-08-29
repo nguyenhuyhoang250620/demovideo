@@ -1,7 +1,7 @@
 import upload from "../asset/image/upload.png"
 import React, { useState,useRef } from "react";
 import close from "../asset/image/close.png"
-const Upload = ({title,bottom,pick,video})=>{
+const Upload = ({title,bottom,pick,video,videoPost})=>{
     const [videodata,setVideodata] = useState()
     const [hover,setHover] = useState(true)
     const videoRef = useRef(null);
@@ -17,7 +17,8 @@ const Upload = ({title,bottom,pick,video})=>{
         if (file) {
             setVideodata(URL.createObjectURL(file));
             pick()
-            video(file)
+            video(URL.createObjectURL(file))
+            videoPost(file)
         }
 
       };

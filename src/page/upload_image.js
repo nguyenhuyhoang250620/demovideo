@@ -35,7 +35,7 @@ const UploadImage = ({title,bottom,pick})=>{
             {
                 image?
                 <div style={{height:"320px",width:"450px",display:"flex",alignItems:'center',justifyContent:"center"}}>
-                    <img src={image} alt="Selected Image" style={{height:"320px",width:"auto",maxWidth:"450px"}}/>
+                    <img src={image} alt="Selected Image" style={{height:"250px",width:"auto",maxWidth:"450px"}}/>
                     <div 
                         onClick={()=>{
                             setImage()

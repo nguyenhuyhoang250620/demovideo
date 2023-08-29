@@ -6,43 +6,29 @@ import next from "../asset/image/next.png"
 import dataJson from "../data/metadata.json"
 import BoundingBoxDiv from "../page/bouding";
 const ResultTime = ({
-  pointstwo,
-  handleTimeChange,
-  selectedTime,
-  videoRef,
   video,
 }) => {
-  const data = [
-    { id: "1", time: "01:40", top: 12, image: [avatar], second: 100 },
-    {
-      id: "3",
-      time: "03:20",
-      top: 200,
-      image: [avatar, avatar, avatar],
-      second: 200,
-    },
-    { id: "4", time: "04:10", top: 350, image: [avatar], second: 250 },
-    { id: "5", time: "05:00", top: 500, image: [avatar, avatar], second: 300 },
-    { id: "6", time: "06:40", top: 700, image: [avatar], second: 280 },
-  ];
-  const dataUser = [1, 2, 3];
+
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [dataAll, setDataAll] = useState(Array(1).fill(""));
+  const [dataAll, setDataAll] = useState(Array(203).fill(""));
+  const [account,setAccount] = useState()
 
+  const videoRef = useRef(null);
+  // const [selectedTime, setSelectedTime] = useState(0);
+  const [selectedTime, setSelectedTime] = useState(0);
+  const [counts, setCounts] = useState(0);
+  const [swich,setSwich] = useState(true)
+  const [detect,setDetect]= useState(false)
   const [bouding,setBounding] = useState([])
-  const handlePrevious = (time,second) => {
-    if (currentIndex > 0) {
-      setCurrentIndex(currentIndex - 1);
-      handleTimeChange(time, second)
-    }
-  };
-
-  const handleNext = (time,second) => {
-    if (currentIndex < pointstwo.length - 1) {
-      setCurrentIndex(currentIndex + 1);
-      handleTimeChange(time,second)
-    }
-  };
+  const handleTimeChange = (time,second,bouding,key,count) => {
+    setDetect(false)
+    setAccount(key)
+    setCounts(count)
+    setSelectedTime(second);
+    setBounding(bouding)
+    
+    videoRef.current.currentTime = second;
+  }
   function formatSecondsToMMSS(seconds) {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = Math.round(seconds % 60);
@@ -52,7 +38,6 @@ const ResultTime = ({
 
     return `${formattedMinutes}:${formattedSeconds}`;
 }
-
   return (
     <div
       style={{
@@ -83,12 +68,12 @@ const ResultTime = ({
           <video
             ref={videoRef}
             controls
-            style={{ height: "48vh", width: "auto" }}
+            style={{ height: "432px", width: "768px" }}
           >
             <source src={video} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
-          {bouding && <BoundingBoxDiv x={bouding[0]} y={bouding[1]} width={bouding[2]} height={bouding[3]} scale={0.15}/>}
+          {bouding.length>0 && <BoundingBoxDiv title={account} top={150} left={620} x={bouding[0]} y={bouding[1]} width={bouding[2]-bouding[0]} height={bouding[3]-bouding[1]} scale={0.4}/>}
         </div>
         <div
         className="container"
@@ -103,9 +88,10 @@ const ResultTime = ({
         >
           {dataAll.map((user, count) => {
             const key = `ID${count}`;
+            
             // console.log(dataJson[key]);
             return(
-              <div style={{display:"flex",flexDirection:"row",marginTop:"10px"}}>
+              <div key={count} style={{display:"flex",flexDirection:"row",marginTop:"10px"}}>
               <div 
                 style={{
                     height:"100%",
@@ -137,28 +123,27 @@ const ResultTime = ({
                 </div>
                 <span style={{color:"rgba(255, 255, 255, 0.7)"}}>Person{`ID${count}`}</span>
               </div>
-              <div className="grid-container">
+              <div className="grid-container" style={{width:"1600px"}}>
                 {dataJson[key].map((point, index) => {
-                  return(<div key={index} className="grid-item">
+                  return(<div key={index} className="grid-item"
+                    onClick={() => {
+                      setBounding(point[1])
+                      handleTimeChange(formatSecondsToMMSS(point[0][0]), point[0][0],point[1],key,count)
+                    }}
+                  >
                   <div
-                    key={point.id}
                     style={{
                       height:"100%",
                       display: "flex",
                       flexDirection: "column",
                       alignItems: "center",
                     }}
-                    onClick={() => {
-                      console.log("point[1]",point[1])
-                      setBounding(point[1])
-                      handleTimeChange(formatSecondsToMMSS(point[0][0]), point[0][0])
-                    }}
                   >
                     <div
                       style={{
                         height: "160px",
                         width: "120px",
-                        background: point.time === pointstwo[currentIndex].time ? "#00F0FF" : "#464852",
+                        background: ((point[0][0] === selectedTime)&&(counts===count))? "#00F0FF" : "#464852",
                         display: "flex",
                         flexDirection: "column",
                         justifyContent: "start",
@@ -192,7 +177,7 @@ const ResultTime = ({
                         style={{
                           marginTop:"20px",
                           color:
-                          point.time === pointstwo[currentIndex].time  ? "black" : "#FFFFFF",
+                          point[0][0] === selectedTime? "black" : "#FFFFFF",
                         }}
                       >
                         {formatSecondsToMMSS(point[0][0])}
@@ -236,7 +221,7 @@ const ResultTime = ({
           }}
         ></div>
 
-        {data.map((item, index) => (
+        {dataAll.map((item, index) => (
           <div
             key={item.id}
             style={{
@@ -263,8 +248,7 @@ const ResultTime = ({
                     : "rgba(255, 255, 255, 0.7)",
               }}
             ></div>
-            {item.image.map((e, p) => (
-              <div
+            <div
                 onClick={() => handleTimeChange(item.time, item.second)}
                 style={{
                   height: "60px",
@@ -277,9 +261,8 @@ const ResultTime = ({
                   overflow: "hidden",
                 }}
               >
-                <img src={e} style={{ height: "100px", width: "auto" }} />
+                <img src={item[0]} style={{ height: "100px", width: "auto" }} />
               </div>
-            ))}
           </div>
         ))}
       </div> */}

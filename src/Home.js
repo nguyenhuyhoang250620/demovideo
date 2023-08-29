@@ -8,6 +8,7 @@ import UploadImage from './page/upload_image';
 import React, { useState,useRef } from "react";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Socket from './page/socket';
 const Home=()=> {
   const [img,setimg] = useState(false)
   const [vid,setvid] = useState(false)
@@ -24,29 +25,31 @@ const Home=()=> {
   const getDataVideo = (data)=>{
     SetSenvide(data)
   }
+  const getVideoPost = (data)=>{
+    setPostVideo(data)
+  }
 
   const goToResultScreen = async () => {
-    console.log(senvideo.name)
-    const formData = new FormData();
-    formData.append("video", senvideo);
-    await axios.post("http://123.24.199.156:18080/ekyc/video_face_scan",
-    formData,
-    {
-      headers:{
-        // "Content-Type": "application/json",
-        "Content-Type": "multipart/form-data",
-        // "Authorization": `Bearer ${token}`,
-        "Access-Control-Allow-Headers":"*",
-        "Access-Control-Allow-Origin":"*",
-      },
-    }).then((value)=>{
-      console.log(value)
-    })
+    // console.log(postVideo)
+    // const formData = new FormData();
+    // formData.append("video",postVideo);
+    // await axios.post("http://123.24.199.156:18080/ekyc/video_face_scan",
+    // formData,
+    // {
+    //   headers:{
+    //     // "Content-Type": "application/json",
+    //     "Content-Type": "multipart/form-data",
+    //     // "Authorization": `Bearer ${token}`,
+    //     "Access-Control-Allow-Headers":"*",
+    //     "Access-Control-Allow-Origin":"*",
+    //   },
+    // }).then((value)=>{
+    //   console.log(value)
+    // })
     // formData.append("image", data.id);
-    // if(img === true  || vid ===true){
-    //   navigate('/home',{state:{data:senvideo}});
-    // }
-   
+    if(vid ===true){
+      navigate('/single',{state:{data:senvideo,img:img}});
+    }
   };
   return (
     <div style={{
@@ -54,6 +57,7 @@ const Home=()=> {
       width:"100vw",
       display:"flex"
     }}>
+      <Socket/>
       <SideBar/>
         <div style={{
             height:"100vh",
@@ -85,7 +89,7 @@ const Home=()=> {
             justifyContent:"space-evenly"
           }}>
             
-            <Upload video={getDataVideo} title="IMAGE/VIDEO SOURCE (INPUT)" bottom="Paste image/video link" pick={(data)=>pickVideo()}/>
+            <Upload videoPost={getVideoPost} video={getDataVideo} title="IMAGE/VIDEO SOURCE (INPUT)" bottom="Paste image/video link" pick={(data)=>pickVideo()}/>
             <UploadImage title="HUMAN SEARCH TARGET" bottom="Paste image link" pick={()=>pickImage()}/>
             <Search title="VEHICLE SEARCH TARGET"/>
           </div>

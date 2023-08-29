@@ -1,6 +1,6 @@
 import React from 'react';
 
-const BoundingBoxDiv = ({ x, y, width, height, scale }) => {
+const BoundingBoxDiv = ({ x, y, width, height, scale,top,left,title }) => {
   const scaledX = x * scale;
   const scaledY = y * scale;
   const scaledWidth = width * scale;
@@ -10,12 +10,17 @@ const BoundingBoxDiv = ({ x, y, width, height, scale }) => {
     width: `${scaledWidth}px`,
     height: `${scaledHeight}px`,
     position: 'absolute',
-    left: `${scaledX+750}px`,
-    top: `${scaledY+200}px`,
-    border: '2px solid red'
+    left: `${scaledX+left}px`,
+    top: `${scaledY+top}px`,
+    border: '2px solid #00F0FF'
   };
 
-  return <div style={divStyle}></div>;
+  return <div style={divStyle}>
+    <span style={{
+      position:"absolute",top:-30,
+      color:"#00F0FF"
+    }}>Person{title}</span>
+  </div>;
 };
 
 export default BoundingBoxDiv;
