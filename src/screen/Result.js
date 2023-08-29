@@ -82,100 +82,108 @@ const ResultScreen =()=>{
             </div>
           </div>
           <img src={headerSearch} onClick={()=>setSwich(!swich)}/>
-          <div style={{
-            width:"100%",
-            height:"66vh",
-            display:"flex",
-            marginTop:"20px",
-            justifyContent:"center",
-            alignItems:"center",
-            position:"relative"
-            }}>
-                <video ref={videoRef} controls style={{height:"68vh",width:"auto"}}>
-                    <source src={location.state.data} type="video/mp4" />
-                    Your browser does not support the video tag.
-                </video>
-                {(detect && swich) && <div style={{
-                  position:"absolute",
-                  height:heights,
-                  width:widths,
-                  border:"2px solid #00F0FF",
-                  top:tops,
-                  left:left
-                }}>
-                  <div style={{color:"#00F0FF",position:"absolute",top:-23,background:"rgba(0, 0, 0, 0.6)",borderRadius:"4px"}}>Person11</div>
-                </div>}
-                
-          </div>
-          <div style={{padding:"20px"}}>
-            <div style={{
-              height:"15vh",
+
+
+              {
+                swich?
+                <div>
+                <div style={{
               width:"100%",
-              background:"#212228",
+              height:"66vh",
               display:"flex",
-              alignItems:"center"
-            }}>
-              <div style={{
-                overflow:"hidden",
-                height:"100px",
-                width:"100px",
-                display:"flex",
-                alignItems:"center",
-                objectFit:"contain",
-                borderRadius:"50%",
-                justifyContent:"center",
-                marginLeft:"10px"
-                }}>
-                <img
-                  style={{height:"200px",width:"auto"}}
-                  src={avatar}
-                />
-              </div>
-              <div style={{
-                height:"100%",
-                width:"100%",
-                display:"flex",
-                alignItems:"center",
-                position:"relative",
-                paddingRight:"40px"
+              marginTop:"20px",
+              justifyContent:"center",
+              alignItems:"center",
+              position:"relative"
               }}>
-                {
-                  swich? <div
-                  style={{height:"5px",
-                  width:"100%",
-                  marginLeft:"30px",
-                  background:"#464852",
+                  <video ref={videoRef} controls style={{height:"68vh",width:"auto"}}>
+                      <source src={location.state.data} type="video/mp4" />
+                      Your browser does not support the video tag.
+                  </video>
+                  {(detect && swich) && <div style={{
+                    position:"absolute",
+                    height:heights,
+                    width:widths,
+                    border:"2px solid #00F0FF",
+                    top:tops,
+                    left:left
+                  }}>
+                    <div style={{color:"#00F0FF",position:"absolute",top:-23,background:"rgba(0, 0, 0, 0.6)",borderRadius:"4px"}}>Person11</div>
+                  </div>}
                   
-                }}
-                >
-  
-                {points.map(point => (
-                  <div
-                    key={point.id}
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      position: "absolute",
-                      top: 28,
-                      left: point.left
-                    }}
-                    onClick={() => handleTimeChange(point.time,point.second,point.tops,point.lefts,point.height,point.width)}
-                  >
-                    <img src={point.time === selectedTime? pointDefaut:pointActive} style={{ marginBottom: "6px" }} />
-                    <span style={{ color: "#FFFFFF" }}>{point.time}</span>
-                  </div>
-                ))}
-                </div>:
-                  <ResultTime
-                    pointstwo={pointstwo}
-                    handleTimeChange={handleTimeChange}
-                    selectedTime={selectedTime}
+            </div>
+            <div style={{padding:"20px"}}>
+              <div style={{
+                height:"15vh",
+                width:"100%",
+                background:"#212228",
+                display:"flex",
+                alignItems:"center"
+              }}>
+                <div style={{
+                  overflow:"hidden",
+                  height:"100px",
+                  width:"100px",
+                  display:"flex",
+                  alignItems:"center",
+                  objectFit:"contain",
+                  borderRadius:"50%",
+                  justifyContent:"center",
+                  marginLeft:"10px"
+                  }}>
+                  <img
+                    style={{height:"200px",width:"auto"}}
+                    src={avatar}
                   />
-                }
-              </div>
-          </div>
-          </div>
+                </div>
+                <div style={{
+                  height:"100%",
+                  width:"100%",
+                  display:"flex",
+                  alignItems:"center",
+                  position:"relative",
+                  paddingRight:"40px"
+                }}>
+                  <div
+                    style={{height:"5px",
+                    width:"100%",
+                    marginLeft:"30px",
+                    background:"#464852",
+                    
+                  }}
+                  >
+    
+                  {points.map(point => (
+                    <div
+                      key={point.id}
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        position: "absolute",
+                        top: 28,
+                        left: point.left
+                      }}
+                      onClick={() => handleTimeChange(point.time,point.second,point.tops,point.lefts,point.height,point.width)}
+                    >
+                      <img src={point.time === selectedTime? pointDefaut:pointActive} style={{ marginBottom: "6px" }} />
+                      <span style={{ color: "#FFFFFF" }}>{point.time}</span>
+                    </div>
+                  ))}
+                  </div>
+                </div>
+            </div>
+            </div>
+                </div>:<ResultTime
+                      pointstwo={pointstwo}
+                      handleTimeChange={handleTimeChange}
+                      selectedTime={selectedTime}
+                      video={location.state.data}
+                      videoRef={videoRef}
+                    />
+              }
+
+        
         </div>
         </div>
     )

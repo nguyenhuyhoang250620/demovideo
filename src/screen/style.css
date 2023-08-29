@@ -1,15 +1,31 @@
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 cột */
-    gap: 16px; /* Khoảng cách giữa các ô */
-    max-height: 100px; /* Chiều cao tối đa của lưới */
+    grid-template-columns: repeat(7, 1fr); /* 4 cột */
+    gap: 35px; /* Khoảng cách giữa các ô */
+    max-height: 250px; /* Chiều cao tối đa của lưới */
     overflow-y: auto; /* Hiển thị thanh cuộn dọc khi cần */
-    border: 1px solid #ccc; /* Thêm đường viền cho thẩm mỹ */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Thêm đường viền cho thẩm mỹ */
     padding: 16px; /* Khoảng cách từ nội dung đến khung của thẻ div */
   }
   
   .grid-item {
-    background-color: #f0f0f0;
-    padding: 16px;
-    text-align: center;
+    border-radius: 6px;
+    display: flex;
+    width: max-content;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .grid-container::-webkit-scrollbar {
+    width: 0; /* Độ rộng của thanh cuộn */
+    height: 1px;
+  }
+  
+  .grid-container::-webkit-scrollbar-thumb {
+    background-color: red; /* Màu nền cho phần thanh cuộn */
+    border-radius: 4px; /* Bo góc cho phần thanh cuộn */
+  }
+  
+  .grid-container::-webkit-scrollbar-track {
+    background-color: #f0f0f0; /* Màu nền của phần track */
   }
