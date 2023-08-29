@@ -1,7 +1,9 @@
 import upload from "../asset/image/upload.png"
 import React, { useState,useRef } from "react";
+import close from "../asset/image/close.png"
 const Upload = ({title,bottom,pick,video})=>{
     const [videodata,setVideodata] = useState()
+    const [hover,setHover] = useState(true)
     const videoRef = useRef(null);
     const inputRef = useRef(null);
 
@@ -19,6 +21,7 @@ const Upload = ({title,bottom,pick,video})=>{
         }
 
       };
+
     return(
         <div 
             style={{
@@ -30,7 +33,8 @@ const Upload = ({title,bottom,pick,video})=>{
                 display:"flex",
                 flexDirection:"column",
                 justifyContent:"start",
-                alignItems:"center"
+                alignItems:"center",
+                position:"relative"
             }}
         >
             <h2 style={{color:"rgba(255, 255, 255, 0.7)"}}>{title}</h2>
@@ -41,6 +45,18 @@ const Upload = ({title,bottom,pick,video})=>{
                             <source src={videodata} type="video/mp4" />
                             Your browser does not support the video tag.
                         </video>
+                        <div 
+                        onClick={()=>{
+                            setVideodata()
+                        }}
+                        style={{
+                            position:"absolute",
+                            top:10,
+                            right:10,
+                            cursor:"pointer"
+                        }}>
+                            <img src={close}/>
+                        </div>
                     </div>
                 :<div 
                     onClick={handleButtonClick}

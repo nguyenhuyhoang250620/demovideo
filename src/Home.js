@@ -65,6 +65,7 @@ const Home=()=> {
             display:"flex",
             justifyContent:"space-evenly"
           }}>
+            
             <Upload video={getDataVideo} title="IMAGE/VIDEO SOURCE (INPUT)" bottom="Paste image/video link" pick={()=>pickVideo()}/>
             <UploadImage title="HUMAN SEARCH TARGET" bottom="Paste image link" pick={()=>pickImage()}/>
             <Search title="VEHICLE SEARCH TARGET"/>

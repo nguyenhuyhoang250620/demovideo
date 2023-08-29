@@ -1,5 +1,6 @@
 import upload from "../asset/image/upload.png"
 import React, { useState,useRef } from "react";
+import close from "../asset/image/close.png"
 const UploadImage = ({title,bottom,pick})=>{
     const inputRef = useRef(null);
     const [image,setImage] = useState()
@@ -26,7 +27,8 @@ const UploadImage = ({title,bottom,pick})=>{
                 display:"flex",
                 flexDirection:"column",
                 justifyContent:"start",
-                alignItems:"center"
+                alignItems:"center",
+                position:"relative"
             }}
         >
             <h2 style={{color:"rgba(255, 255, 255, 0.7)"}}>{title}</h2>
@@ -34,6 +36,18 @@ const UploadImage = ({title,bottom,pick})=>{
                 image?
                 <div style={{height:"320px",width:"450px",display:"flex",alignItems:'center',justifyContent:"center"}}>
                     <img src={image} alt="Selected Image" style={{height:"320px",width:"auto",maxWidth:"450px"}}/>
+                    <div 
+                        onClick={()=>{
+                            setImage()
+                        }}
+                        style={{
+                            position:"absolute",
+                            top:10,
+                            right:10,
+                            cursor:"pointer"
+                        }}>
+                            <img src={close}/>
+                        </div>
                 </div>
                 :<div 
                     onClick={handleButtonClick}
