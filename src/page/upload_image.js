@@ -1,7 +1,7 @@
 import upload from "../asset/image/upload.png"
 import React, { useState,useRef } from "react";
 import close from "../asset/image/close.png"
-const UploadImage = ({title,bottom,pick})=>{
+const UploadImage = ({title,bottom,pick,getImagePost})=>{
     const inputRef = useRef(null);
     const [image,setImage] = useState()
     const handleButtonClick = () => {
@@ -14,6 +14,7 @@ const UploadImage = ({title,bottom,pick})=>{
         if (file) {
             setImage(URL.createObjectURL(file));
             pick()
+            getImagePost(file)
         }
       };
     return(

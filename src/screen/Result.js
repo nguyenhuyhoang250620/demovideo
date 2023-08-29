@@ -7,7 +7,6 @@ import avatar from "../asset/image/avatar.jpg"
 import pointDefaut from "../asset/image/point_default.png"
 import pointActive from "../asset/image/point_active.png"
 import ResultSingle from "./ResultSingle"
-import dataJson from "../data/metadata.json"
 import ResultTime from "./ResuiltTime"
 import BoundingBoxDiv from "../page/bouding";
 const ResultScreen =()=>{
@@ -18,8 +17,10 @@ const ResultScreen =()=>{
   const [swich,setSwich] = useState(true)
   const [detect,setDetect]= useState(false)
   const [bouding,setBounding] = useState([])
- 
+  
+  const dataJson = location.state.dataAll;
 
+  console.log("location.state.img",dataJson.ID0)
 
   const handleTimeChange = (time,second,bouding) => {
     setDetect(false)
@@ -39,18 +40,7 @@ const ResultScreen =()=>{
 
     return `${formattedMinutes}:${formattedSeconds}`;
 }
-  const pointstwo = [
-    { id: '1', time: '00:50',left:80,second:50},
-    { id: '2', time: '01:40',left:100,second:100},
-    { id: '3', time: '02:30',left:200,second:150},
-    { id: '4', time: '03:20',left:1500,second:200},
-    { id: '5', time: '04:10',left:1600,second:250},
-    { id: '6', time: '05:00',left:1600,second:300},
-    { id: '7', time: '05:50',left:1600,second:350},
-    { id: '8', time: '06:40',left:1600,second:400},
-  ];
 
-console.log(location.state.img)
     return(
         <div style={{
             height:"100vh",
@@ -124,6 +114,7 @@ console.log(location.state.img)
                   }}>
                   <img
                     style={{height:"80px",width:"auto"}}
+                    
                     src={dataJson.ID0[0][2]}
                   />
                 </div>
@@ -166,23 +157,15 @@ console.log(location.state.img)
             </div>
             </div>
                 </div>:<ResultSingle
-                      pointstwo={pointstwo}
-                      handleTimeChange={handleTimeChange}
-                      selectedTime={selectedTime}
+                      data={dataJson}
                       video={location.state.data}
-                      videoRef={videoRef}
                     />
               }
             </>:<ResultTime
-                      pointstwo={pointstwo}
-                      handleTimeChange={handleTimeChange}
-                      selectedTime={selectedTime}
-                      video={location.state.data}
-                      videoRef={videoRef}
-                    />
+                data={dataJson}
+                video={location.state.data}
+              />
           }
-
-
         </div>
         </div>
     )

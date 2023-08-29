@@ -23,7 +23,9 @@ const Socket = ({sendata}) => {
     // Xử lý sự kiện khi kết nối WebSocket nhận được tin nhắn
     socket.onmessage = (event) => {
         const dataEvent = JSON.parse(event.data);
+        console.log("dataEvent.event",dataEvent.event)
         if(dataEvent.event === "video_face_scan"){
+          console.log("dataEvent.data",dataEvent.data)
           sendata(dataEvent.data)
         }
     };

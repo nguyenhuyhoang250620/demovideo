@@ -3,14 +3,17 @@ import "./style.css";
 import { useRef, useState } from "react";
 import prviuos from "../asset/image/previuos.png"
 import next from "../asset/image/next.png"
-import dataJson from "../data/metadata.json"
 import BoundingBoxDiv from "../page/bouding";
 const ResultTime = ({
+  data,
   video,
 }) => {
 
+
+
+  const dataJson = data
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [dataAll, setDataAll] = useState(Array(203).fill(""));
+  const [dataAll, setDataAll] = useState(Array(Object.keys(data).length-1).fill(""));
   const [account,setAccount] = useState()
 
   const videoRef = useRef(null);
@@ -38,6 +41,7 @@ const ResultTime = ({
 
     return `${formattedMinutes}:${formattedSeconds}`;
 }
+console.log("dataJson",dataJson)
   return (
     <div
       style={{
@@ -89,7 +93,7 @@ const ResultTime = ({
           {dataAll.map((user, count) => {
             const key = `ID${count}`;
             
-            // console.log(dataJson[key]);
+            console.log(dataJson[key][0][2][0].replace(/^\.\//,''));
             return(
               <div key={count} style={{display:"flex",flexDirection:"row",marginTop:"10px"}}>
               <div 
@@ -117,7 +121,7 @@ const ResultTime = ({
                   }}
                 >
                   <img
-                    src={dataJson[key][0][2][0]}
+                    src={`http://123.24.199.156:18080/${dataJson[key][0][2][0].replace(/^\.\//,'')}`}
                     style={{ height: "110px", width: "auto" }}
                   />
                 </div>
@@ -170,7 +174,7 @@ const ResultTime = ({
                       >
                         <img
                           style={{ height: "90px", width: "auto" }}
-                          src={point[2][0]}
+                          src={`http://123.24.199.156:18080/${point[2][0].replace(/^\.\//,'')}`}
                         />
                       </div>
                       <span

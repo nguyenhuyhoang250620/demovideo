@@ -3,9 +3,9 @@ import "./style.css";
 import { useRef, useState } from "react";
 import prviuos from "../asset/image/previuos.png"
 import next from "../asset/image/next.png"
-import dataJson from "../data/metadata.json"
 import BoundingBoxDiv from "../page/bouding";
 const ResultSingle = ({
+  data,
   video,
 }) => {
   const videoRef = useRef(null);
@@ -23,6 +23,7 @@ const ResultSingle = ({
     
     videoRef.current.currentTime = second;
   }
+  const dataJson = data
   function formatSecondsToMMSS(seconds) {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = Math.round(seconds % 60);
