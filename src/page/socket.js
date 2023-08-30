@@ -1,11 +1,11 @@
 import axios from "axios";
 import { useEffect } from "react";
-
+export const domain = window.SystemConfig.REACT_APP_API_Django;
 const Socket = ({sendata}) => {
   useEffect(() => {
     // Tạo kết nối HTTP đến máy chủ của bạn
     const httpClient = axios.create({
-      baseURL: `ws://123.24.199.156:18080/ws/vms-server/`,
+      baseURL: `ws://${domain}/ws/vms-server/`,
       headers: {
         "Content-Type": "application/json",
       },
@@ -13,7 +13,7 @@ const Socket = ({sendata}) => {
 
     // Chuyển đổi kết nối HTTP thành kết nối WebSocket
     let socket = new WebSocket(
-      `ws://123.24.199.156:18080/ws/vms-server/`
+      `ws://${domain}/ws/vms-server/`
     );
     // Xử lý sự kiện khi kết nối WebSocket được mở
     socket.onopen = () => {
@@ -34,7 +34,7 @@ const Socket = ({sendata}) => {
       console.log("Socket mất kết nối . Tự động kết nối lại sau 1 giây");
       setTimeout(() => {
         socket = new WebSocket(
-            `ws://123.24.199.156:18080/ws/vms-server/`
+            `ws://${domain}/ws/vms-server/`
         );
       }, 1000);
     };

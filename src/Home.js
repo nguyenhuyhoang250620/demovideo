@@ -5,12 +5,13 @@ import Upload from './page/upload';
 import Search from './page/search';
 import language from "../src/asset/image/language.png"
 import UploadImage from './page/upload_image';
-import React, { useState,useRef } from "react";
+import React, { useState,useRef, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Socket from './page/socket';
 import { Modal } from 'antd';
 // import data from "../src/data/metadata.json"
+export const domain = window.SystemConfig.REACT_APP_API_Django;
 const Home=()=> {
   const [img,setimg] = useState(false)
   const [vid,setvid] = useState(false)
@@ -19,6 +20,10 @@ const Home=()=> {
   const [postVideo,setPostVideo]= useState()
   const [postImage,setPostImage]= useState()
   const [visible, setVisible] = useState(false);
+
+  useEffect(()=>{
+    localStorage.setItem("imgz", false);
+  },[])
 
   const showModal = () => {
     setVisible(true);
@@ -37,7 +42,7 @@ const Home=()=> {
   }
   const pickImage = ()=>{
     setimg(true)
-    localStorage.setItem("img", true);
+    localStorage.setItem("imgz", true);
   }
  
   const getDataVideo = (data)=>{
@@ -55,8 +60,8 @@ const Home=()=> {
     showModal()
     const formData = new FormData();
     formData.append("video",postVideo);
-    formData.append("image",pickImage);
-    await axios.post("http://123.24.199.156:18080/ekyc/video_face_scan",
+    formData.append("image",postImage);
+    await axios.post(`http://${domain}/ekyc/video_face_scan`,
     formData,
     {
       headers:{
@@ -69,11 +74,20 @@ const Home=()=> {
     }).then((value)=>{
     })
     // formData.append("image", data.id);
+    
   };
   const getDataSend =(data)=>{
     const video = localStorage.getItem("video")
-    const img = localStorage.getItem("img")
-    navigate('/single',{state:{data:video,img:img,dataAll:JSON.parse(data)}});
+    const imgz = localStorage.getItem("imgz")
+    console.log("img",imgz)
+    if(imgz==="true"){
+      console.log("vao1")
+      navigate('/single',{state:{data:video,img:img,dataAll:JSON.parse(data)}});
+    }
+    else{
+      console.log("vao2")
+      navigate('/mutil',{state:{data:video,img:img,dataAll:JSON.parse(data)}});
+    }
   }
   return (
     <div style={{

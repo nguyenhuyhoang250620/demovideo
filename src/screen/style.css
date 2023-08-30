@@ -17,13 +17,13 @@
   .container{}
 
   .grid-container::-webkit-scrollbar {
-    width: 0; /* Độ rộng của thanh cuộn */
-    height: 1px;
+    width: 0px; /* Độ rộng của thanh cuộn */
+    height: 10px;
   }
   
   .grid-container::-webkit-scrollbar-thumb {
-    background-color: #212228; /* Màu nền cho phần thanh cuộn */
-    border-radius: 4px; /* Bo góc cho phần thanh cuộn */
+    background-color: black; /* Màu nền cho phần thanh cuộn */
+    border-radius: 0px; /* Bo góc cho phần thanh cuộn */
   }
   
   .grid-container::-webkit-scrollbar-track {

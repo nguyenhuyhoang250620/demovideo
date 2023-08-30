@@ -7,25 +7,29 @@ import avatar from "../asset/image/avatar.jpg"
 import pointDefaut from "../asset/image/point_default.png"
 import pointActive from "../asset/image/point_active.png"
 import ResultSingle from "./ResultSingle"
-import ResultTime from "./ResuiltTime"
 import BoundingBoxDiv from "../page/bouding";
 const ResultScreen =()=>{
   const location = useLocation();
   const videoRef = useRef(null);
   // const [selectedTime, setSelectedTime] = useState(0);
   const [selectedTime, setSelectedTime] = useState();
-  const [swich,setSwich] = useState(true)
+  const [swich,setSwich] = useState(false)
   const [detect,setDetect]= useState(false)
   const [bouding,setBounding] = useState([])
-  
+  const [keyword,setKeys] = useState()
+  const [isCheck,setisCheck]= useState(localStorage.getItem("img"))
+  const dataz=[]
   const dataJson = location.state.dataAll;
-
-  console.log("location.state.img",dataJson.ID0)
-
+  const keys = Object.keys(dataJson);
+  const fieldsExceptLast = keys.slice(0, -1);
+  fieldsExceptLast.forEach(key => {
+    dataz.push(key)
+  });
+ 
   const handleTimeChange = (time,second,bouding) => {
     setDetect(false)
     console.log(second)
-    setSelectedTime(second[0]);
+    setSelectedTime(second);
     console.log(bouding)
     setBounding(bouding)
     
@@ -39,7 +43,9 @@ const ResultScreen =()=>{
     const formattedSeconds = remainingSeconds < 10 ? `0${remainingSeconds}` : remainingSeconds;
 
     return `${formattedMinutes}:${formattedSeconds}`;
+  
 }
+
 
     return(
         <div style={{
@@ -72,8 +78,6 @@ const ResultScreen =()=>{
           </div>
           <img src={headerSearch} onClick={()=>setSwich(!swich)}/>
           {
-            location.state.img?<>
-               {
                 swich?
                 <div>
                 <div style={{
@@ -89,83 +93,91 @@ const ResultScreen =()=>{
                       <source src={location.state.data} type="video/mp4" />
                       Your browser does not support the video tag.
                   </video>
-                  {bouding.length>0 && <BoundingBoxDiv title="ID0" x={bouding[0]} y={bouding[1]} width={bouding[2]-bouding[0]} height={bouding[3]-bouding[1]} scale={0.6} top={0} left={350}/>}
+                  {bouding.length>0 && <BoundingBoxDiv title="ID0" x={bouding[0]} y={bouding[1]} width={bouding[2]-bouding[0]} height={bouding[3]-bouding[1]} scale={0.6} top={-20} left={330}/>}
                   
             </div>
-            <div style={{padding:"20px"}}>
-              <div style={{
-                height:"15vh",
-                width:"100%",
-                background:"#212228",
-                display:"flex",
-                alignItems:"center"
-              }}>
-                <div style={{
-                  overflow:"hidden",
-                  height:"100px",
-                  width:"100px",
-                  display:"flex",
-                  alignItems:"center",
-                  objectFit:"contain",
-                  borderRadius:"50%",
-                  justifyContent:"center",
-                  marginLeft:"10px",
-                  border:"1px solid #ccc"
-                  }}>
-                  <img
-                    style={{height:"80px",width:"auto"}}
-                    
-                    src={dataJson.ID0[0][2]}
-                  />
-                </div>
-                <div style={{
-                  height:"100%",
-                  width:"100%",
-                  display:"flex",
-                  alignItems:"center",
-                  position:"relative",
-                  paddingRight:"40px"
-                }}>
-                  <div
-                    style={{height:"5px",
+            <div style={{
+              height:"20vh",
+              overflow:"auto"
+            }}>
+            {
+                dataz.map((items)=>{
+                  return(<div style={{padding:"20px"}}>
+                  <div style={{
+                    height:"15vh",
                     width:"100%",
-                    marginLeft:"30px",
-                    background:"#464852",
-                    
-                  }}
-                  >
-    
-                  {dataJson.ID0.map(point => (
-                    <div
-                      key={point.id}
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        position: "absolute",
-                        top: 28,
-                        left: point[0]*100
-                      }}
-                      onClick={() => handleTimeChange(formatSecondsToMMSS(point[0]),point[0],point[1])}
-                    >
-                      <img src={point[0][0] === selectedTime? pointDefaut:pointActive} style={{ marginBottom: "6px" }} />
-                      <span style={{ color: "#FFFFFF" }}>{formatSecondsToMMSS(point[0])}</span>
+                    background:"#212228",
+                    display:"flex",
+                    alignItems:"center"
+                  }}>
+                    <div style={{
+                      overflow:"hidden",
+                      height:"100px",
+                      width:"100px",
+                      display:"flex",
+                      alignItems:"center",
+                      objectFit:"contain",
+                      borderRadius:"50%",
+                      justifyContent:"center",
+                      marginLeft:"10px",
+                      border:"1px solid #ccc"
+                      }}>
+                      <img
+                        style={{height:"80px",width:"auto"}}
+                        src={`http://123.24.199.156:18080/${dataJson[items][0][2][0].replace(/^\.\//,'')}`}
+                      />
                     </div>
-                  ))}
-                  </div>
+                    <div style={{
+                      height:"100%",
+                      width:"100%",
+                      display:"flex",
+                      alignItems:"center",
+                      position:"relative",
+                      paddingRight:"40px"
+                    }}>
+                      <div
+                        style={{height:"5px",
+                        width:"100%",
+                        marginLeft:"30px",
+                        background:"#464852",
+                        
+                      }}
+                      >
+        
+                      { dataJson[items].map((point,index) => {
+                        console.log("pointpointpoint",point)
+                        return (
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                              alignItems: "center",
+                              position: "absolute",
+                              top: 28,
+                              left: point[0]*2
+                            }}
+                            onClick={() => handleTimeChange(formatSecondsToMMSS(point[0][0]),point[0][0],point[1])}
+                          >
+                            <img 
+                            src={point[0][0] === selectedTime? pointDefaut:pointActive} 
+                            style={{ marginBottom: "6px" }} />
+                            <span style={{ color: "#FFFFFF" }}>{formatSecondsToMMSS(point[0][0])}</span>
+                          </div>
+                        )
+                      })}
+                      </div>
+                    </div>
                 </div>
+                </div>)
+                })
+              }
             </div>
-            </div>
+            
                 </div>:<ResultSingle
                       data={dataJson}
                       video={location.state.data}
                     />
               }
-            </>:<ResultTime
-                data={dataJson}
-                video={location.state.data}
-              />
-          }
         </div>
         </div>
     )

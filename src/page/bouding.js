@@ -19,7 +19,7 @@ const BoundingBoxDiv = ({ x, y, width, height, scale,top,left,title }) => {
     <span style={{
       position:"absolute",top:-30,
       color:"#00F0FF"
-    }}>Person{title}</span>
+    }}>{title}</span>
   </div>;
 };
 
